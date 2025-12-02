@@ -18,14 +18,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ServicePlatformShell() {
-  const rootRef = useRef(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(true);
 
   // Animazioni GSAP
   useEffect(() => {
@@ -41,7 +39,8 @@ const [isDark, setIsDark] = useState(true);
         delay: 0.1,
       });
 
-      gsap.utils.toArray(".reveal-on-scroll").forEach((el) => {
+      // QUI la fix: tipiamo l'array
+      gsap.utils.toArray<HTMLElement>(".reveal-on-scroll").forEach((el) => {
         gsap.from(el, {
           opacity: 0,
           y: 26,
@@ -66,7 +65,7 @@ const [isDark, setIsDark] = useState(true);
     return () => ctx.revert();
   }, []);
 
-  const scrollToId = (id) => {
+  const scrollToId = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
@@ -76,6 +75,7 @@ const [isDark, setIsDark] = useState(true);
     }
     setMobileOpen(false);
   };
+
 
   // helper per tema
   const bgMain = isDark ? "bg-slate-950" : "bg-slate-50";
